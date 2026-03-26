@@ -102,7 +102,7 @@ export const Textarea = ({ className = "", ...props }) => (
 export const FloatingCodeElements = ({ isDark }) => {
   const codeElements = [
     "{ }", "< />", "=>", "&&", "||", "===", "!==", "++", "--", "/**/", "//", "[]", "()", ";;", 
-    "function", "const", "let", "var", "return", "import", "export", "class", "extends", "async", "await","implements","break","continue"
+    "function", "const", "let", "var", "return", "import", "export", "class", "extends", "async", "await","implements","break","continue","keras","np","tf","aws","k8s"
   ]
 
   return (
