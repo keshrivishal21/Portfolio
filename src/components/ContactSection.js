@@ -27,7 +27,7 @@ import toast from "react-hot-toast";
 
 const ContactSection = ({ isDark }) => {
   const [form, setForm] = useState({
-    firstName: "",
+    fullName: "",
     email: "",
     subject: "",
     message: "",
@@ -48,14 +48,14 @@ const ContactSection = ({ isDark }) => {
     if (sending) return;
 
     const trimmedForm = {
-      firstName: form.firstName.trim(),
+      fullName: form.fullName.trim(),
       email: form.email.trim(),
       subject: form.subject.trim(),
       message: form.message.trim(),
     };
 
     if (
-      !trimmedForm.firstName ||
+      !trimmedForm.fullName ||
       !trimmedForm.email ||
       !trimmedForm.subject ||
       !trimmedForm.message
@@ -69,14 +69,18 @@ const ContactSection = ({ isDark }) => {
     setSending(true);
     setError("");
 
-    const readEnv = (key) => (process.env[key] ? String(process.env[key]).trim() : "");
+    const readEnv = (key) =>
+      process.env[key] ? String(process.env[key]).trim() : "";
 
-    const serviceId = readEnv("REACT_APP_EMAILJS_SERVICE_ID") || "service_b8v2dzp";
-      
-    const templateId = readEnv("REACT_APP_EMAILJS_TEMPLATE_ID") || "template_q4qaze3";
-      
-    const publicKey = readEnv("REACT_APP_EMAILJS_PUBLIC_KEY") || "dhjesIMD-hc_XW6N_";
-      
+    const serviceId =
+      readEnv("REACT_APP_EMAILJS_SERVICE_ID") || "service_b8v2dzp";
+
+    const templateId =
+      readEnv("REACT_APP_EMAILJS_TEMPLATE_ID") || "template_q4qaze3";
+
+    const publicKey =
+      readEnv("REACT_APP_EMAILJS_PUBLIC_KEY") || "dhjesIMD-hc_XW6N_";
+
     if (!publicKey) {
       setSending(false);
       toast.error(
@@ -89,15 +93,15 @@ const ContactSection = ({ isDark }) => {
       emailjs.init({ publicKey });
 
       await emailjs.send(serviceId, templateId, {
-        from_name: trimmedForm.firstName,
-        from_email: trimmedForm.email,
+        firstName: trimmedForm.fullName,
+        email: trimmedForm.email,
         subject: trimmedForm.subject,
         message: trimmedForm.message,
       });
 
       toast.success("Message sent successfully! I'll get back to you soon.");
       setForm({
-        firstName: "",
+        fullName: "",
         email: "",
         subject: "",
         message: "",
@@ -161,7 +165,7 @@ const ContactSection = ({ isDark }) => {
       iconColor: isDark ? "text-yellow-400" : "text-yellow-600",
     },
     {
-      icon: Clock, 
+      icon: Clock,
       label: "response",
       value: "Replies within 24 hours",
       bgColor: isDark ? "bg-blue-500/20" : "bg-blue-200",
@@ -392,7 +396,7 @@ const ContactSection = ({ isDark }) => {
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div>
                     <label
-                      htmlFor="firstName"
+                      htmlFor="fullName"
                       className={`block text-sm font-medium mb-2 font-mono ${
                         isDark ? "text-slate-300" : "text-slate-700"
                       }`}
@@ -400,8 +404,8 @@ const ContactSection = ({ isDark }) => {
                       Full Name:
                     </label>
                     <Input
-                      id="firstName"
-                      value={form.firstName}
+                      id="fullName"
+                      value={form.fullName}
                       onChange={handleChange}
                       type="text"
                       placeholder="Jon Snow"
